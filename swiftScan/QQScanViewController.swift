@@ -55,6 +55,8 @@ class QQScanViewController: LBXScanViewController {
 
     override func handleCodeResult(arrayResult: [LBXScanResult]) {
 
+        print("handleCodeResult")
+        
         for result: LBXScanResult in arrayResult {
             if let str = result.strScanned {
                 print(str)

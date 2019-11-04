@@ -163,9 +163,13 @@ extension LBXScanViewController: UIImagePickerControllerDelegate, UINavigationCo
             return
         }
         let arrayResult = LBXScanWrapper.recognizeQRImage(image: image)
-        if !arrayResult.isEmpty {
-            handleCodeResult(arrayResult: arrayResult)
-        }
+        
+        //如果选择的不是二维码图片，也会给出！
+//        if !arrayResult.isEmpty {
+//            handleCodeResult(arrayResult: arrayResult)
+//        }
+        
+        handleCodeResult(arrayResult: arrayResult)
     }
     
 }
