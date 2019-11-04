@@ -143,6 +143,7 @@ open class LBXScanViewController: UIViewController {
             let picker = UIImagePickerController()
             picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.delegate = self
+            picker.modalPresentationStyle = .fullScreen
             picker.allowsEditing = true
             self?.present(picker, animated: true, completion: nil)
         }
