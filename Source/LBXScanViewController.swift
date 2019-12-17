@@ -139,13 +139,39 @@ open class LBXScanViewController: UIViewController {
     }
     
     @objc open func openPhotoAlbum() {
-        LBXPermissions.authorizePhotoWith { [weak self] _ in
-            let picker = UIImagePickerController()
-            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            picker.delegate = self
-            picker.modalPresentationStyle = .fullScreen
-            picker.allowsEditing = true
-            self?.present(picker, animated: true, completion: nil)
+        LBXPermissions.authorizePhotoWith { [weak self] (okay) in
+            
+            if okay {
+                let picker = UIImagePickerController()
+                picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+                picker.delegate = self
+                picker.modalPresentationStyle = .fullScreen
+                picker.allowsEditing = true
+                self?.present(picker, animated: true, completion: nil)
+                
+            } else {
+                
+                let alter = UIAlertController(title: "提示", message: "您尚未开通相册权限", preferredStyle: .alert)
+                
+                let action = UIAlertAction(title: "去开启", style: .default) {(_) in
+                    guard let appSetting = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(appSetting, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(appSetting)
+                    }
+                }
+                let cancel = UIAlertAction(title: "取消", style: .cancel) { (_) in
+                    alter.dismiss(animated: true, completion: nil)
+                }
+                alter.addAction(action)
+                alter.addAction(cancel)
+                self?.present(alter, animated: true, completion: nil)
+                
+            }
+            
         }
     }
 }
